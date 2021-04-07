@@ -1,18 +1,15 @@
 ﻿namespace RemObjects.Elements.RTL.Delphi.VCL;
 
-{$IF (ISLAND AND (WINDOWS) AND NOT DARWIN) OR ECHOESWPF OR (MACOS AND NOT (ISLAND AND DARWIN))}
+{$IF (ISLAND AND (WINDOWS) AND NOT DARWIN) OR ECHOESWPF OR (MACOS AND NOT MACCATALYST AND NOT (ISLAND AND DARWIN))}
 
 interface
 
 uses
   RemObjects.Elements.RTL,
   RemObjects.Elements.RTL.Delphi,
-  {$IF ECHOESWPF}
-  System.Reflection
-  {$ELSEIF MACOS}
+  {$IF ECHOESWPF OR MACOS}
   RemObjects.Elements.RTL.Reflection
-  {$ENDIF}
-  ;
+  {$ENDIF};
 
 
 type
@@ -439,11 +436,7 @@ end;
 
 constructor TListColumns(aOwner: TListView);
 begin
-  {$IF TOFFEE}
-  inherited(new &Type withClass(typeOf(TListColumn)));
-  {$ELSE}
   inherited(typeOf(TListColumn));
-  {$ENDIF}
   fOwner := aOwner;
 end;
 
